@@ -3,6 +3,10 @@ package miTest;
 import miPrincipal.*;
 import pila.Pila;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,10 +16,12 @@ class AppTest {
 
     
     private Delimitadores objDel;
+    
 
     @BeforeEach
     public void setUp() {
         objDel = new Delimitadores();
+    
     }
 
     @Test
@@ -40,6 +46,29 @@ class AppTest {
     public void testEvaluacionDelimitadores_ExpresionConSoloDelimitadores() {
         String expr = "{}[]()";
         assertTrue(objDel.evaluacionDelimitadores(expr), "La expresión con solo delimitadores debería ser correcta");
+    }
+
+    @Test
+    public void testEvaluarPostFija() {
+        // Dada la expresión postfija
+        String expresionPostfija ="XZ+W*TY^/V-";
+
+        // Y los valores de las variables
+        Map<Character, Double> map= new LinkedHashMap<>();
+		map.put('X',3d);
+		map.put('Z',1d);
+		map.put('W',6d);
+		map.put('T',2d);
+		map.put('Y',3d);
+		map.put('V',1d);
+
+       
+        //cuando se evalua
+        double resultado = InfijaPostFija.evaluarPostfija(expresionPostfija,map);
+
+
+        // Entonces debe dar 2 (con un margen de error por si hay decimales)
+        assertEquals(2.0, resultado, 0.0001);
     }
 
     @Test
